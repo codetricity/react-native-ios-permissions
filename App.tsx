@@ -48,6 +48,15 @@ function App(): React.JSX.Element {
           .catch(err => console.log(err))
   }
 
+  const getFromCameraRoll = () => {
+        CameraRoll.getPhotos({first: 10} )
+          .then(res => {
+            console.log(res.edges);
+            // console.log(res);
+          })
+          .catch(err => console.log(err))
+  }
+
   const checkPerm = (permName: Permission ) => {
     RNPermissions.check(permName).then((status) => {
       console.log( permName, status);
@@ -93,6 +102,7 @@ function App(): React.JSX.Element {
         <Button onPress={requestPhotoAddOnly} title='request photo add perm' />
         <Button  onPress={handleDownload} title='download to local temp' />
         {/* <Button  onPress={saveToCameraRoll} title='save ' /> */}
+        <Button onPress={getFromCameraRoll} title='get list' />
 
         <Text>{permMessage}</Text>
      
