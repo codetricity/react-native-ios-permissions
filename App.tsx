@@ -22,6 +22,7 @@ function App(): React.JSX.Element {
   const [permMessage, setPermMessage ] = useState('');
   const [url, setUrl] = useState('https://fake-theta.vercel.app/files/150100525831424d42075b53ce68c300/100RICOH/R0010015.JPG');
   const [ localFilePath, setLocalFilePath] = useState('');
+  const [counter, setCounter] = useState(0);
 
   const imageList = [
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010002.JPG',
@@ -32,14 +33,18 @@ function App(): React.JSX.Element {
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010001.JPG',
   ];
 
-  let counter = 0;
+  
 
   const changeImage = () => {
+    console.log(`number of images: ${imageList.length}`)
     if (counter < imageList.length ) {
-      counter++;
+      setCounter(counter + 1);
     } else {
-      counter = 0;
+      console.log('counter is reset')
+      setCounter(0);
     }
+    console.log(`counter: ${counter}`);
+    console.log(`url: ${imageList[counter]}` );
     setUrl(imageList[counter]);
   };
 
