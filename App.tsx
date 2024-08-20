@@ -25,12 +25,16 @@ function App(): React.JSX.Element {
   const [counter, setCounter] = useState(0);
 
   const imageList = [
+    'https://live.staticflickr.com/65535/52282804643_06049e61d0_o.jpg',
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010002.JPG',
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010012.JPG',
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010028.JPG',
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010027.JPG',
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010016.JPG',
     'https://codetricity.github.io/fake-storage/files/100RICOH/R0010001.JPG',
+    'https://images.unsplash.com/photo-1557971370-e7298ee473fb',
+    'https://live.staticflickr.com/65535/52281801817_5d5e7f2669_o.jpg',
+    'https://live.staticflickr.com/65535/52379470065_1e9134827d_o.jpg',
   ];
 
   
@@ -76,16 +80,6 @@ function App(): React.JSX.Element {
       .catch(error => console.log(error));
   };
 
-  // const saveToCameraRoll = async () => {
-  //   RNPermissions.check(PERMISSIONS.IOS.PHOTO_LIBRARY).then((status) => {
-  //     console.log('photo library permissions: ', status);
-  //     console.log('local file path: ', localFilePath);
-  //     // CameraRoll.saveAsset(`file:\\${localFilePath}`, {type: 'photo'})
-  //     CameraRoll.saveAsset(localFilePath, {type: 'photo'})
-  //       .then(res => console.log(res))
-  //       .catch(err => console.log(err))
-  //   })
-  // }
 
   const saveToCameraRoll = async () => {
     let status = await RNPermissions.check(PERMISSIONS.IOS.PHOTO_LIBRARY)
@@ -94,7 +88,7 @@ function App(): React.JSX.Element {
     await checkGalleryPermissions();
     await check(PERMISSIONS.IOS.PHOTO_LIBRARY);
     try {
-      let res = await CameraRoll.saveAsset(localFilePath, {type: 'photo'});
+      let res = await CameraRoll.saveAsset(localFilePath, {type: 'photo', album: 'THETA'});
         // let res = await CameraRoll.saveAsset(`file:\\${localFilePath}`, {type: 'photo'})
 
       console.log(res);
