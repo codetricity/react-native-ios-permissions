@@ -44,7 +44,19 @@ Without the workaround, I was getting the error below.
 
 * react-native-permissions
 * @react-native-camera-roll/camera-roll
-* react-native-blob-util
+* [react-native-blob-util](https://github.com/RonRadtke/react-native-blob-util)
+
+```text
+npm install --save react-native-blob-util
+...
+...
+cd ios
+pod install
+cd ..
+```
+
+Note: There seems to be two React Native packages called `react-native-blob-util`. I used
+the one linked above.
 
 ## Sample Images
 
