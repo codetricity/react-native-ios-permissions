@@ -1,25 +1,33 @@
 
 # React Native iOS permissions test
 
-## album
+Save network images to iOS Camera Roll or separate album.
+Download image to local application storage on iOS device with
+react-native-blob-util then copy to album.
+
+Set permission with user agreement.  Stores permissions in app.
+
+## Features
+
+### album
 
 ![album](readme_assets/album.png)
 
-## gallery
+### gallery
 
 ![gallery](readme_assets/image_in_gallery.png)
 
-## view as equirectangular
+### view as equirectangular
 
 ![equirectangular view](readme_assets/equirectangular.png)
 
-## verify permissions
+### verify permissions
 
 ![photo library](readme_assets/photo_library.png)
 
 ![screenshot permissions granted](readme_assets/screenshot.png)
 
-## delete and manage photos using iOS photos app
+### delete and manage photos using iOS photos app
 
 ![delete](readme_assets/delete.png)
 
