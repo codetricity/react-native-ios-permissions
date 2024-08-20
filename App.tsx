@@ -23,6 +23,17 @@ function App(): React.JSX.Element {
   const [url, setUrl] = useState('https://placehold.co/400x400');
   const [ localFilePath, setLocalFilePath] = useState('');
 
+  async function checkGalleryPermissions() {
+  
+    try {
+    await CameraRoll.getPhotos({ first: 1 });
+      console.log('Gallery permissions: Granted');
+    } catch (error) {
+      console.log('Gallery permissions: Denied');
+      console.log('Permission error:', error);
+      }
+    }
+
   const handleDownload = async () => {
     ReactNativeBlobUtil.config({
       fileCache: true,
@@ -35,23 +46,46 @@ function App(): React.JSX.Element {
         })
         setLocalFilePath(res.path());
         console.log('resource path: ', res.path());
-        
-
       })
       .catch(error => console.log(error));
   };
 
-  const saveToCameraRoll = () => {
-    console.log('local file path: ', localFilePath);
-        CameraRoll.saveAsset(localFilePath, {type: 'photo'})
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
+  // const saveToCameraRoll = async () => {
+  //   RNPermissions.check(PERMISSIONS.IOS.PHOTO_LIBRARY).then((status) => {
+  //     console.log('photo library permissions: ', status);
+  //     console.log('local file path: ', localFilePath);
+  //     // CameraRoll.saveAsset(`file:\\${localFilePath}`, {type: 'photo'})
+  //     CameraRoll.saveAsset(localFilePath, {type: 'photo'})
+  //       .then(res => console.log(res))
+  //       .catch(err => console.log(err))
+  //   })
+  // }
+
+  const saveToCameraRoll = async () => {
+    let status = await RNPermissions.check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+      console.log('photo library permissions: ', status);
+      console.log('local file path: ', localFilePath);
+    await checkGalleryPermissions();
+    try {
+      let res = await CameraRoll.saveAsset(localFilePath, {type: 'photo'});
+            // CameraRoll.saveAsset(`file:\\${localFilePath}`, {type: 'photo'})
+
+      console.log(res);
+    }
+  
+    catch(err) {
+      console.log(err);
+    } 
+    
   }
 
   const getFromCameraRoll = () => {
-        CameraRoll.getPhotos({first: 10} )
+        CameraRoll.getPhotos({first: 10, include: ['filename']} )
           .then(res => {
             console.log(res.edges);
+            for(let i = 0; i < res.edges.length; i++) {
+              console.log(res.edges[i].node.image)
+            }
             // console.log(res);
           })
           .catch(err => console.log(err))
@@ -101,7 +135,7 @@ function App(): React.JSX.Element {
         <Button onPress={requestPhotoPerm} title='request photo perm' />
         <Button onPress={requestPhotoAddOnly} title='request photo add perm' />
         <Button  onPress={handleDownload} title='download to local temp' />
-        {/* <Button  onPress={saveToCameraRoll} title='save ' /> */}
+        <Button  onPress={saveToCameraRoll} title='save ' />
         <Button onPress={getFromCameraRoll} title='get list' />
 
         <Text>{permMessage}</Text>
