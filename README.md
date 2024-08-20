@@ -33,6 +33,13 @@ Set permission with user agreement.  Stores permissions in app.
 
 ## Tips
 
+There is some type of incompatibility between react-native-permissions and camera-roll.
+The workaround is described [here](https://github.com/react-native-cameraroll/react-native-cameraroll/issues/617).
+
+Without the workaround, I was getting the error below.
+
+`PHPhotosErrorDomain error -1.`
+
 ### Packages Used
 
 * react-native-permissions
