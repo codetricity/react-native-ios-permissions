@@ -20,7 +20,7 @@ import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 function App(): React.JSX.Element {
 
   const [permMessage, setPermMessage ] = useState('');
-  const [url, setUrl] = useState('https://placehold.co/400x400');
+  const [url, setUrl] = useState('https://fake-theta.vercel.app/files/150100525831424d42075b53ce68c300/100RICOH/R0010015.JPG');
   const [ localFilePath, setLocalFilePath] = useState('');
 
   async function checkGalleryPermissions() {
@@ -37,7 +37,8 @@ function App(): React.JSX.Element {
   const handleDownload = async () => {
     ReactNativeBlobUtil.config({
       fileCache: true,
-      appendExt: 'png',
+      // appendExt: 'png',
+      appendExt: 'jpg',
     })
       .fetch('GET', url)
       .then(res => {
@@ -66,9 +67,10 @@ function App(): React.JSX.Element {
       console.log('photo library permissions: ', status);
       console.log('local file path: ', localFilePath);
     await checkGalleryPermissions();
+    await check(PERMISSIONS.IOS.PHOTO_LIBRARY);
     try {
       let res = await CameraRoll.saveAsset(localFilePath, {type: 'photo'});
-            // CameraRoll.saveAsset(`file:\\${localFilePath}`, {type: 'photo'})
+        // let res = await CameraRoll.saveAsset(`file:\\${localFilePath}`, {type: 'photo'})
 
       console.log(res);
     }
