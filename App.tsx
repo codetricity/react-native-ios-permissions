@@ -7,7 +7,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  Image,
   View,
 } from 'react-native';
 
@@ -22,6 +22,26 @@ function App(): React.JSX.Element {
   const [permMessage, setPermMessage ] = useState('');
   const [url, setUrl] = useState('https://fake-theta.vercel.app/files/150100525831424d42075b53ce68c300/100RICOH/R0010015.JPG');
   const [ localFilePath, setLocalFilePath] = useState('');
+
+  const imageList = [
+    'https://codetricity.github.io/fake-storage/files/100RICOH/R0010002.JPG',
+    'https://codetricity.github.io/fake-storage/files/100RICOH/R0010012.JPG',
+    'https://codetricity.github.io/fake-storage/files/100RICOH/R0010028.JPG',
+    'https://codetricity.github.io/fake-storage/files/100RICOH/R0010027.JPG',
+    'https://codetricity.github.io/fake-storage/files/100RICOH/R0010016.JPG',
+    'https://codetricity.github.io/fake-storage/files/100RICOH/R0010001.JPG',
+  ];
+
+  let counter = 0;
+
+  const changeImage = () => {
+    if (counter < imageList.length ) {
+      counter++;
+    } else {
+      counter = 0;
+    }
+    setUrl(imageList[counter]);
+  };
 
   async function checkGalleryPermissions() {
   
@@ -139,15 +159,18 @@ function App(): React.JSX.Element {
         <Button  onPress={handleDownload} title='download to local temp' />
         <Button  onPress={saveToCameraRoll} title='save ' />
         <Button onPress={getFromCameraRoll} title='get list' />
+        <Button onPress={changeImage} title='change image' />
 
         <Text>{permMessage}</Text>
-     
+
+        <Image source={{uri: url}} style={styles.imageStyle} />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  imageStyle: {width: 400, height: 200},
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
