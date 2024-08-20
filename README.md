@@ -7,6 +7,8 @@ react-native-blob-util then copy to album.
 
 Set permission with user agreement.  Stores permissions in app.
 
+[Written Tutorial and Tips](https://community.theta360.guide/t/react-native-save-network-image-to-ios-camera-roll-solved-error-phphotoserrordomain-error-1/9875?u=craig)
+
 ## Features
 
 ### album
