@@ -7,16 +7,46 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
 import RNPermissions, {check, PERMISSIONS, RESULTS, Permission} from 'react-native-permissions';
+import ReactNativeBlobUtil from 'react-native-blob-util';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 
 
 
 function App(): React.JSX.Element {
 
   const [permMessage, setPermMessage ] = useState('');
+  const [url, setUrl] = useState('https://placehold.co/400x400');
+  const [ localFilePath, setLocalFilePath] = useState('');
+
+  const handleDownload = async () => {
+    ReactNativeBlobUtil.config({
+      fileCache: true,
+      appendExt: 'png',
+    })
+      .fetch('GET', url)
+      .then(res => {
+        RNPermissions.check(PERMISSIONS.IOS.PHOTO_LIBRARY).then((status) => {
+          console.log('photo library permissions: ', status);
+        })
+        setLocalFilePath(res.path());
+        console.log('resource path: ', res.path());
+        
+
+      })
+      .catch(error => console.log(error));
+  };
+
+  const saveToCameraRoll = () => {
+    console.log('local file path: ', localFilePath);
+        CameraRoll.saveAsset(localFilePath, {type: 'photo'})
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
+  }
 
   const checkPerm = (permName: Permission ) => {
     RNPermissions.check(permName).then((status) => {
@@ -61,8 +91,11 @@ function App(): React.JSX.Element {
         <Button onPress={checkPhotoAddOnly} title='Check Photo Add Perm' />
         <Button onPress={requestPhotoPerm} title='request photo perm' />
         <Button onPress={requestPhotoAddOnly} title='request photo add perm' />
-        <Text>{permMessage}</Text>
+        <Button  onPress={handleDownload} title='download to local temp' />
+        {/* <Button  onPress={saveToCameraRoll} title='save ' /> */}
 
+        <Text>{permMessage}</Text>
+     
       </ScrollView>
     </SafeAreaView>
   );
@@ -84,6 +117,13 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  downloadButton: {
+    backgroundColor: 'white',
+    marginTop: 40,
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    borderRadius: 3,
   },
 });
 
